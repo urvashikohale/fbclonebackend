@@ -17,10 +17,10 @@ router.post(
     check("firstname", "Name should be atleast 3 charcter").isLength({
       min: 3,
     }),
-    check("lastname", "lastName should be atleast 3 character").isLength({
+    check("lastname", "Lastname should be atleast 3 character").isLength({
       min: 3,
     }),
-    check("email", "Email is not valid").isEmail(),
+    check("email", "Enter valid email").isEmail(),
     check("password", "Password should be atleast 5 charcter").isLength({
       min: 5,
     }),
@@ -41,9 +41,5 @@ router.post(
 );
 
 router.get("/logout", logout);
-
-router.get("/testroute", isLoggedIn, (req, res) => {
-  res.send("A PROTECTED ROUTEEEE");
-});
 
 module.exports = router;

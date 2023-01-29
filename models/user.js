@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 const crypto = require("node:crypto");
 const { v4: uuidv4 } = require("uuid");
-var bcrypt = require("bcryptjs");
+const { ObjectId } = mongoose.Schema; //ObjectId is used for childSchema
 
 const userSchema = new mongoose.Schema(
   {
@@ -30,10 +30,7 @@ const userSchema = new mongoose.Schema(
     },
     salt: String,
     //role is to diff user from admin
-    role: {
-      type: Number,
-      default: 0,
-    },
+
     updated: Date,
     created: {
       type: Date,
@@ -43,24 +40,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    post: {
-      type: Array,
-      default: [],
-    },
-
-    friends: {
-      type: Array,
-      default: [],
-    },
-    profilePhoto: {
+    lives: { type: String, trim: true },
+    photo: {
       data: Buffer,
       contentType: String,
     },
-    coverPhoto: {
-      data: Buffer,
-      contentType: String,
-    },
-    lives: {},
+    following: [{ type: ObjectId, ref: "User" }],
+    followers: [{ type: ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

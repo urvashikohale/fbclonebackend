@@ -12,18 +12,21 @@ exports.signup = (req, res) => {
 
   if (!errors.isEmpty()) {
     return res.status(422).json({
-      errors: errors.array()[0].msg,
+      error: errors.array()[0].msg,
     });
   }
 
   //to get wht user has type and saved it in db
   const user = new User(req.body);
-  user.save((err, user) => {
-    if (err) {
+  user.save((error, user) => {
+    console.log(error);
+
+    if (error) {
       return res.status(400).json({
-        err: "Not able to save user in Database",
+        error: "Email already exist",
       });
     }
+
     res.json({
       firstname: user.firstname,
       lastname: user.lastname,
@@ -41,7 +44,7 @@ exports.login = (req, res) => {
 
   if (!errors.isEmpty()) {
     return res.status(422).json({
-      errors: errors.array()[0].msg,
+      error: errors.array()[0].msg,
     });
   }
 
@@ -49,7 +52,7 @@ exports.login = (req, res) => {
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
-        err: "Email does not exist",
+        error: "Email does not exist",
       });
     }
 
@@ -57,7 +60,7 @@ exports.login = (req, res) => {
 
     if (!user.authenticate(password)) {
       return res.status(400).json({
-        err: "Password does not match",
+        error: "Password does not match",
       });
     }
 

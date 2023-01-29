@@ -1,24 +1,20 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema; //ObjectId is used for childSchema
 
 const postSchema = new mongoose.Schema({
   photo: {
     data: Buffer,
     contentType: String,
   },
-  description: {
+  text: {
     type: String,
     max: 500,
   },
-  createdAt: {
+  likes: [{ type: ObjectId, ref: "User" }],
+  postedBy: { type: ObjectId, ref: "User" },
+  created: {
     type: Date,
     default: Date.now(),
-  },
-  updatedAt: {
-    type: Date,
-  },
-  likes: {
-    type: Array,
-    default: [],
   },
 });
 

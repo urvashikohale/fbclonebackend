@@ -9,6 +9,10 @@ const {
   deletePost,
   updatePost,
   getAllPosts,
+  listByUser,
+  listNewsFeed,
+  like,
+  unlike,
 } = require("../controllers/post");
 const { getUserById } = require("../controllers/user");
 const { isAuthenticated, isLoggedIn } = require("../controllers/auth");
@@ -17,18 +21,24 @@ router.param("userId", getUserById);
 router.param("postId", getPostById);
 
 //routes create post
-router.post("/post/create/:userId", isLoggedIn, isAuthenticated, createPost);
+router.post("/posts/new/:userId", isLoggedIn, createPost);
 //show post
-router.get("/post/:postId", getPost);
+// router.get("/post/:postId", getPost);
 //middleware
-router.get("/post/photo/:postId", photo);
+router.get("/posts/photo/:postId", photo);
+
+router.get("/posts/by/:userId", isLoggedIn, listByUser);
+
+router.get("/posts/feed/:userId", isLoggedIn, listNewsFeed);
+router.put("/posts/like", isLoggedIn, like);
+router.put("/posts/unlike", isLoggedIn, unlike);
 
 //delete post
 router.delete("/post/:postId/:userId", isLoggedIn, isAuthenticated, deletePost);
 
 //update post
-router.put("/post/:postId/:userId", isLoggedIn, isAuthenticated, updatePost);
+// router.put("/post/:postId/:userId", isLoggedIn, isAuthenticated, updatePost);
 
 //get ALL user post
-router.get("/posts", isLoggedIn, getAllPosts);
+// router.get("/posts", isLoggedIn, getAllPosts);
 module.exports = router;
